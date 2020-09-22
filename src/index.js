@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import './index.css';
 import App from './App';
+import AirportContext from './context/AirportConext';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <AirportContext>
     <App />
-  </React.StrictMode>,
+  </AirportContext>,
   document.getElementById('root')
 );
