@@ -2,26 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 const App = () => {
-  const [count, setCount] = useState(0);
+  const count = useRef(0);
+  const [countState, setCountState] = useState(0);
 
-  const button = useRef(null);
+  useEffect(() => {
+    count.current = 1;
+    console.log('Ref ' + count.current);
+  }, []);
 
-  const increment = () => {
-    setCount((prev) => prev + 1);
-  };
-
-  const fakeClicker = () => {
-    button.current.click();
-  };
+  useEffect(() => {
+    setCountState(1);
+    console.log('State ' + countState);
+  }, [countState]);
 
   return (
     <div className="App">
       <h1> React Playground </h1>
-      <h1> {count} </h1>
-      <button onClick={fakeClicker}> Fake Counter </button>
-      <button ref={button} onClick={increment}>
-        Increase count
-      </button>
     </div>
   );
 };
