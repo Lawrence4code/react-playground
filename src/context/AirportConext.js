@@ -1,22 +1,62 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useReducer } from 'react';
 
 import airportsList from '../airportsData';
 
 export const AirportContext = createContext(null);
 
-export default ({ children }) => {
-  const [airports, setAirports] = useState(airportsList);
+function reducer(state, action) {
+  console.log('action', action);
+  switch (action.type) {
+    // case 'removeVisited':
+    //   console.log('removeVisited case');
+    //   return {
+    //     airports: state.airports.map((airport) => {
+    //       if (airport.id === action.value)
+    //         return {
+    //           ...airport,
+    //           visited: false,
+    //         };
+    //       return airport;
+    //     }),
+    //   };
+    // case 'addVisited':
+    //   console.log('addVisited case');
+    //   return {
+    //     airports: state.airports.map((airport) => {
+    //       if (airport.id === action.value) {
+    //         return {
+    //           ...airport,
+    //           visited: true,
+    //         };
+    //       }
+    //       return airport;
+    //     }),
+    //   };
+    case 'toggleVisited':
+      console.log('toggleVisited case');
+      return {
+        airports: state.airports.map((airport) => {
+          if (airport.id === action.value) {
+            return {
+              ...airport,
+              visited: !airport.visited,
+            };
+          }
+          return airport;
+        }),
+      };
+    default:
+      console.log('default case');
+      return state;
+  }
+}
 
-  const store = {
-    airports,
-    removeAirport: (name) => {
-      setAirports((prevState) => {
-        console.log({ prevState });
-        return prevState.filter((airport) => airport.name !== name);
-      });
-    },
-  };
+export default ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, { airports: airportsList });
+
   return (
-    <AirportContext.Provider value={store}>{children}</AirportContext.Provider>
+    <AirportContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AirportContext.Provider>
   );
 };
