@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
 // const cache = {};
@@ -9,30 +9,31 @@ import './App.css';
 //   cache[number] = value;
 // };
 
-function fibonacci(x) {
-  if (x <= 0) return 0;
-  if (x === 1) return 1;
+// function fibonacci(x) {
+//   if (x <= 0) return 0;
+//   if (x === 1) return 1;
 
-  return fibonacci(x - 1) + fibonacci(x - 2);
-}
+//   return fibonacci(x - 1) + fibonacci(x - 2);
+// }
 
 const App = () => {
-  const [number, setNumber] = useState(10);
-  const [isGreen, setIsGreen] = useState(true);
-  const fib = useMemo(() => fibonacci(number), [number]);
+  const [number, setNumber] = useState(0);
+  const [plusOne, setPlusOne] = useState(0);
+  const add1 = useCallback((x) => {
+    console.log('Here ', x);
+    return x + 1;
+  }, []);
+
+  useEffect(() => {
+    setPlusOne(add1(number));
+  }, [add1, number]);
 
   return (
     <div className="app">
       <h1> React Playground </h1>
-      <button
-        onClick={() => setIsGreen()}
-        style={{ background: isGreen ? '#01ff70' : '#b10dc9' }}
-      >
-        UseMemo Example
-      </button>
-      <h2>
-        Fibonnacci of {number} is {fib}
-      </h2>
+
+      <h2>{number}</h2>
+      <h2>{plusOne}</h2>
       <button onClick={() => setNumber(number + 1)}>+</button>
     </div>
   );
