@@ -8,7 +8,6 @@ const App = () => {
 
   const addMovie = (e) => {
     e.preventDefault();
-    console.log({ movies, newMovie });
     setMovies((movies || []).concat(newMovie));
     setNewMovie('');
   };
